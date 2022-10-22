@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Wand
   - Hitbox
+  - Projectile
   layers:
   - Default
   - TransparentFX
