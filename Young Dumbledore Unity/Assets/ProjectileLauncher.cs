@@ -14,5 +14,11 @@ namespace Unity.Template.VR
             var ball = Instantiate(projectile, transform1.position, transform1.rotation);
             ball.GetComponent<Rigidbody>().AddRelativeForce(new Vector3(0, launchVelocity, 0));
         }
+        public void Fire()
+        {
+            var transform1 = transform;
+            var ball = Instantiate(projectile, transform1.position, transform1.rotation);
+            ball.GetComponent<Rigidbody>().AddRelativeForce(new Vector3(0, launchVelocity, 0)); 
+        }
     }
 }
