@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.Template.VR;
 using UnityEngine;
 
 public class SpellCollision : MonoBehaviour
@@ -8,6 +9,19 @@ public class SpellCollision : MonoBehaviour
 
     private ArrayList currentSpell = new ();
 
+    
+    //Projectile
+    public GameObject projectile;
+    public float launchVelocity = 700f;
+    private void Fire()
+    {
+        //if (!Input.GetButtonDown("Fire1")) return;
+        var transform1 = transform;
+        var ball = Instantiate(projectile, transform1.position, transform1.rotation);
+        ball.GetComponent<Rigidbody>().AddRelativeForce(new Vector3(0, launchVelocity, 0)); 
+    }
+    
+    
     private void OnTriggerEnter(Collider other)
     {
         
@@ -68,6 +82,12 @@ public class SpellCollision : MonoBehaviour
 
             if (t)
             {
+                // GameObject go = new GameObject();
+                // go.AddComponent<ProjectileLauncher>();
+                // ProjectileLauncher launcher = go.GetComponent<ProjectileLauncher>();
+                // ProjectileLauncher launcher = new ProjectileLauncher();
+                
+                Fire();
                 print("AVADAKEDAVRA");
                 
             }
