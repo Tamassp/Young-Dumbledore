@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.Template.VR;
 using UnityEngine;
 
 public class SpellCollision : MonoBehaviour
@@ -8,6 +9,85 @@ public class SpellCollision : MonoBehaviour
 
     private ArrayList currentSpell = new ();
 
+    
+    //Projectile
+    public GameObject projectile;
+    public float launchVelocity = 700f;
+    private void Fire()
+    {
+        //if (!Input.GetButtonDown("Fire1")) return;
+        var transform1 = transform;
+        var ball = Instantiate(projectile, transform1.position, transform1.rotation);
+        ball.GetComponent<Rigidbody>().AddRelativeForce(new Vector3(0, launchVelocity, 0)); 
+    }
+    
+    
+    
+    
+    //Door
+    private bool playerInZone;                  //Check if the player is in the zone
+    private bool doorOpened;                    //Check if door is currently opened or not
+
+    private Animation doorAnim;
+    private BoxCollider doorCollider;           //To enable the player to go through the door if door is opened else block him
+
+    public GameObject doorControllerGo;
+    
+    enum DoorState
+    {
+        Closed,
+        Opened,
+        Jammed
+    }
+
+    DoorState doorState = new DoorState();      //To check the current state of the door
+    
+    // private void DoorInteract()
+    // {
+    //     print("OPEEEEN");
+    //     doorOpened = false;                     //Is the door currently opened//Player not in zone
+    //     doorState = DoorState.Closed;           //Starting state is door closed
+    //
+    //     
+    //
+    //     doorAnim = transform.parent.gameObject.GetComponent<Animation>();
+    //     doorCollider = transform.parent.gameObject.GetComponent<BoxCollider>();
+    //     //To Check if the player is in the zone
+    //     if (playerInZone)
+    //     {
+    //         if (doorState == DoorState.Opened)
+    //         {
+    //             //txtToDisplay.GetComponent<Text>().text = "Press 'E' to Close";
+    //             doorCollider.enabled = false;
+    //         }
+    //         else if (doorState == DoorState.Closed)
+    //         {
+    //             //txtToDisplay.GetComponent<Text>().text = "Press 'E' to Open";
+    //             doorCollider.enabled = true;
+    //         }
+    //         else if (doorState == DoorState.Jammed)
+    //         {
+    //             //txtToDisplay.GetComponent<Text>().text = "Needs Key";
+    //             doorCollider.enabled = true;
+    //         }
+    //     }
+    //
+    //
+    //     
+    //     if (doorState == DoorState.Closed && !doorAnim.isPlaying)
+    //     {
+    //         doorAnim.Play("Door_Open");
+    //         doorState = DoorState.Opened;
+    //     }
+    //
+    //     if (doorState == DoorState.Opened && !doorAnim.isPlaying)
+    //     {
+    //         doorAnim.Play("Door_Close");
+    //         doorState = DoorState.Closed;
+    //     }
+    // }
+
+    
     private void OnTriggerEnter(Collider other)
     {
         
@@ -68,10 +148,18 @@ public class SpellCollision : MonoBehaviour
 
             if (t)
             {
+                // GameObject go = new GameObject();
+                // go.AddComponent<ProjectileLauncher>();
+                // ProjectileLauncher launcher = go.GetComponent<ProjectileLauncher>();
+                // ProjectileLauncher launcher = new ProjectileLauncher();
+                
+                Fire();
                 print("AVADAKEDAVRA");
                 
             }
         }
+        
+        
         if (currentSpell.Count == alohomora.Count)
         {
             for (int i = 0; i < currentSpell.Count; i++)
@@ -82,9 +170,14 @@ public class SpellCollision : MonoBehaviour
                 }
             }
 
+            
             if (t)
             {
+                
                 print("ALOHOMORA");
+                DoorController dc = doorControllerGo.GetComponent<DoorController>();
+                dc.Interact();
+               
             }
         }
     }
