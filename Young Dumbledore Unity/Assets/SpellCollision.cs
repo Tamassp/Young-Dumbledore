@@ -1,17 +1,16 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SpellCollision : MonoBehaviour
 {
-    private ArrayList avadaKedavra = new ArrayList() { 1, 2, 3 };
-    private ArrayList alohomora = new ArrayList() { 3,6,9,8,7,4,1,2,5 };
+    private ArrayList avadaKedavra = new() { 1, 2, 3 };
+    private ArrayList alohomora = new() { 3,6,9,8,7,4,1,2,5 };
 
-    private ArrayList currentSpell = new ArrayList();
+    private ArrayList currentSpell = new ();
 
     private void OnTriggerEnter(Collider other)
     {
+        
         if (other.gameObject.tag == "Hitbox")
         {
             print("ENTER");
@@ -70,6 +69,7 @@ public class SpellCollision : MonoBehaviour
             if (t)
             {
                 print("AVADAKEDAVRA");
+                
             }
         }
         if (currentSpell.Count == alohomora.Count)
@@ -99,6 +99,11 @@ public class SpellCollision : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+        if (other.gameObject.tag == "SpellArea")
+        {
+            currentSpell.Clear();
+            print("EXITSPEALLAREA");
+        }
         if (other.gameObject.tag == "Hitbox")
         {
             print("EXIT");
